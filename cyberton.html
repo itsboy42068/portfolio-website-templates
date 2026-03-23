@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CYBERTON - Full Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #060810; --surface: #0c1120; --border: rgba(255,255,255,0.06);
+    --accent: #00f5c4; --accent2: #7b5cfa; --accent3: #ff4b6e;
+    --text: #e8ecf5; --muted: #5a6282; --glow: 0 0 40px rgba(0,245,196,0.15);
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; overflow-x: hidden; cursor: none; }
+  .cursor { position: fixed; top: 0; left: 0; z-index: 9999; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; pointer-events: none; transform: translate(-50%,-50%); transition: width 0.2s, height 0.2s; mix-blend-mode: screen; }
+  .cursor-ring { position: fixed; top: 0; left: 0; z-index: 9998; width: 36px; height: 36px; border: 1px solid rgba(0,245,196,0.4); border-radius: 50%; pointer-events: none; transform: translate(-50%,-50%); }
+  body::before { content: ''; position: fixed; inset: 0; z-index: 0; background-image: linear-gradient(rgba(0,245,196,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,245,196,0.03) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); background: rgba(6,8,16,0.7); }
+  .nav-logo { font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 800; letter-spacing: 0.12em; color: var(--text); text-decoration: none; }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 9px 22px; border-radius: 2px; text-decoration: none; font-weight: 600; transition: opacity 0.2s; }
+  .nav-cta:hover { opacity: 0.85; }
+  .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; overflow: hidden; }
+  .hero-orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .hero-orb-1 { width: 600px; height: 600px; background: rgba(0,245,196,0.07); top: -100px; left: -100px; }
+  .hero-orb-2 { width: 500px; height: 500px; background: rgba(123,92,250,0.08); bottom: -80px; right: -60px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(0,245,196,0.25); padding: 6px 16px; border-radius: 2px; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 32px; animation: fadeUp 0.8s ease both; }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(3rem, 8vw, 7.5rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 28px; animation: fadeUp 0.8s 0.15s ease both; }
+  h1 em { font-style: normal; color: var(--accent); }
+  h1 .stroke { -webkit-text-stroke: 1px rgba(255,255,255,0.2); color: transparent; }
+  .hero-sub { max-width: 520px; font-size: 0.9rem; line-height: 1.75; color: var(--muted); margin-bottom: 48px; animation: fadeUp 0.8s 0.3s ease both; }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.8s 0.45s ease both; }
+  .btn-primary { background: var(--accent); color: var(--bg); padding: 14px 32px; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border: none; cursor: none; border-radius: 2px; transition: box-shadow 0.3s, opacity 0.2s; text-decoration: none; display: inline-block; }
+  .btn-primary:hover { opacity: 0.9; box-shadow: var(--glow); }
+  .btn-outline { border: 1px solid var(--border); color: var(--muted); padding: 14px 32px; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; background: none; cursor: none; border-radius: 2px; transition: border-color 0.2s, color 0.2s; text-decoration: none; display: inline-block; }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .hero-stats { display: flex; gap: 48px; margin-top: 80px; animation: fadeUp 0.8s 0.6s ease both; border-top: 1px solid var(--border); padding-top: 40px; }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: var(--text); }
+  .stat-num span { color: var(--accent); }
+  .stat-lbl { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  .marquee-wrap { overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 16px 0; background: rgba(0,245,196,0.02); }
+  .marquee-track { display: flex; white-space: nowrap; animation: marquee 28s linear infinite; }
+  .marquee-item { font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); padding: 0 32px; display: flex; align-items: center; gap: 16px; }
+  .marquee-item::after { content: '✦'; color: var(--accent); font-size: 0.5rem; }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  section { position: relative; z-index: 1; }
+  .section-label { font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  .section-label::before { content: ''; display: block; width: 32px; height: 1px; background: var(--accent); }
+  h2 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 20px; }
+  .modules { padding: 120px 48px; max-width: 1300px; margin: 0 auto; }
+  .modules-header { max-width: 600px; margin-bottom: 72px; }
+  .modules-header p { color: var(--muted); line-height: 1.75; font-size: 0.88rem; margin-top: 16px; }
+  .modules-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; }
+  .module-card { background: var(--surface); border: 1px solid var(--border); padding: 40px 36px; position: relative; overflow: hidden; opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.3s; }
+  .module-card.visible { opacity: 1; transform: translateY(0); }
+  .module-card:hover { border-color: rgba(0,245,196,0.2); }
+  .module-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,245,196,0.04) 0%, transparent 60%); opacity: 0; transition: opacity 0.3s; }
+  .module-card:hover::before { opacity: 1; }
+  .card-wide { grid-column: span 7; }
+  .card-narrow { grid-column: span 5; }
+  .card-third { grid-column: span 4; }
+  .card-icon { width: 44px; height: 44px; border: 1px solid var(--border); border-radius: 4px; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; font-size: 1.1rem; }
+  .card-num { position: absolute; top: 32px; right: 32px; font-size: 0.62rem; letter-spacing: 0.2em; color: var(--muted); }
+  .card-title { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; }
+  .card-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.7; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .tag { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); border-radius: 2px; color: var(--muted); }
+  .tag-accent { border-color: rgba(0,245,196,0.25); color: var(--accent); }
+  .tag-purple { border-color: rgba(123,92,250,0.25); color: var(--accent2); }
+  .tag-red { border-color: rgba(255,75,110,0.25); color: var(--accent3); }
+  .stack-section { padding: 100px 48px; max-width: 1300px; margin: 0 auto; }
+  .stack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 60px; }
+  .stack-col { background: var(--surface); border: 1px solid var(--border); padding: 40px; }
+  .stack-col h3 { font-family: 'Syne', sans-serif; font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; display: flex; align-items: center; gap: 10px; }
+  .stack-col h3::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .stack-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 0.82rem; }
+  .stack-item:last-child { border-bottom: none; }
+  .stack-item-name { color: var(--text); }
+  .stack-item-badge { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 9px; border-radius: 2px; }
+  .badge-core { background: rgba(0,245,196,0.1); color: var(--accent); }
+  .badge-sec { background: rgba(255,75,110,0.1); color: var(--accent3); }
+  .badge-rt { background: rgba(123,92,250,0.1); color: var(--accent2); }
+  .security-section { padding: 100px 48px; background: linear-gradient(180deg, transparent, rgba(123,92,250,0.04), transparent); }
+  .security-inner { max-width: 1300px; margin: 0 auto; }
+  .security-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; margin-top: 60px; }
+  .sec-card { background: var(--surface); border: 1px solid var(--border); padding: 36px; opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .sec-card.visible { opacity: 1; transform: translateY(0); }
+  .sec-card:nth-child(2){transition-delay:0.1s} .sec-card:nth-child(3){transition-delay:0.2s} .sec-card:nth-child(4){transition-delay:0.05s} .sec-card:nth-child(5){transition-delay:0.15s} .sec-card:nth-child(6){transition-delay:0.25s}
+  .sec-icon { font-size: 1.5rem; margin-bottom: 20px; }
+  .sec-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+  .sec-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
+  .arch-section { padding: 100px 48px; max-width: 1300px; margin: 0 auto; }
+  .arch-diagram { margin-top: 60px; background: var(--surface); border: 1px solid var(--border); padding: 60px 48px; font-family: 'DM Mono', monospace; font-size: 0.78rem; position: relative; overflow: hidden; }
+  .arch-diagram::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(0,245,196,0.04), transparent 60%); }
+  .arch-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 8px 0; position: relative; z-index: 1; flex-wrap: wrap; }
+  .arch-box { border: 1px solid var(--border); padding: 10px 20px; border-radius: 2px; color: var(--text); white-space: nowrap; transition: border-color 0.3s; }
+  .arch-box:hover { border-color: var(--accent); }
+  .arch-box.accent { border-color: rgba(0,245,196,0.3); color: var(--accent); }
+  .arch-box.purple { border-color: rgba(123,92,250,0.3); color: var(--accent2); }
+  .arch-box.red { border-color: rgba(255,75,110,0.3); color: var(--accent3); }
+  .arch-arrow { color: var(--muted); font-size: 0.9rem; }
+  .arch-label { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .cta-section { padding: 140px 48px; text-align: center; position: relative; overflow: hidden; }
+  .cta-section::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 800px; height: 400px; background: radial-gradient(ellipse, rgba(0,245,196,0.06), transparent 70%); }
+  .cta-inner { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+  .cta-inner h2 { margin-bottom: 20px; }
+  .cta-inner p { color: var(--muted); font-size: 0.88rem; line-height: 1.75; margin-bottom: 40px; }
+  footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex; align-items: center; justify-content: space-between; font-size: 0.68rem; letter-spacing: 0.12em; color: var(--muted); }
+  footer a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  footer a:hover { color: var(--accent); }
+  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-track{background:var(--bg)} ::-webkit-scrollbar-thumb{background:var(--muted);border-radius:2px}
+  @media(max-width:900px){
+    nav{padding:14px 18px; position: fixed; width: 100%; top: 0; left: 0; right: 0;}
+    .nav-links{display:none}
+    .nav-logo{font-size:1rem}
+    .hero{padding:100px 16px 64px;}
+    .hero-sub{font-size:0.86rem;max-width:100%}
+    .hero-btns{gap:10px;}
+    .modules{padding:80px 16px}
+    .card-wide,.card-narrow,.card-third{grid-column:span 12}
+    .module-card{padding:24px 20px;}
+    .stack-grid,.security-grid{grid-template-columns:1fr}
+    .arch-section,.stack-section{padding:80px 16px}
+    .profile-section{padding:80px 16px}
+    .profile-content{padding:20px}
+    .marquee-wrap{padding:12px 0}
+    .stack-item,.sec-card{font-size:0.8rem}
+    .cta-section{padding:80px 16px}
+    footer{flex-direction:column;gap:14px;text-align:center;padding:28px 16px}
+    .hero-stats{gap:20px}
+    .hero-stats .stat-num{font-size:1.6rem}
+    .hero-stats .stat-lbl{font-size:0.62rem}
+  }
+  .profile-info { display: flex; flex-direction: column; gap: 16px; margin-bottom: 48px; }
+  .info-item { display: flex; gap: 16px; }
+  .info-label { font-weight: 600; color: var(--accent); min-width: 120px; }
+  .info-value { color: var(--text); }
+  .profile-section { padding: 100px 48px; max-width: 1300px; margin: 0 auto; }
+  .profile-content { background: var(--surface); border: 1px solid var(--border); padding: 40px; margin-top: 40px; }
+  .profile-content h3 { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; color: var(--accent); }
+  .profile-content p { margin-bottom: 16px; line-height: 1.7; }
+  .profile-content ul { margin-left: 20px; margin-bottom: 16px; }
+  .profile-content li { margin-bottom: 8px; }
+  .profile-content strong { color: var(--accent); }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="#" class="nav-logo">CYBER<span>TON</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#goals">Goals</a></li>
+  </ul>
+  <a href="https://github.com/itsboy42068" class="nav-cta">GitHub →</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-badge">Cybersecurity Enthusiast</div>
+  <h1><em>CYBERTON</em><br><span class="stroke">Profile</span></h1>
+  <p class="hero-sub">A senior secondary student focused on building a career in cybersecurity and ethical hacking through practical learning and hands-on projects.</p>
+  <div class="profile-info">
+    <div class="info-item"><span class="info-label">Education:</span><span class="info-value">Class 12 (UP Board)</span></div>
+    <div class="info-item"><span class="info-label">Location:</span><span class="info-value">India</span></div>
+    <div class="info-item"><span class="info-label">Field:</span><span class="info-value">Cybersecurity & Ethical Hacking</span></div>
+  </div>
+  <div class="hero-btns">
+    <a href="https://github.com/itsboy42068" class="btn-primary">View GitHub</a>
+    <a href="#about" class="btn-outline">Learn More</a>
+  </div>
+  <div class="hero-stats">
+    <div><div class="stat-num">1<span>+</span></div><div class="stat-lbl">Year Learning</div></div>
+    <div><div class="stat-num">5<span>+</span></div><div class="stat-lbl">Projects Planned</div></div>
+    <div><div class="stat-num">Python<span>✦</span></div><div class="stat-lbl">Core Skill</div></div>
+    <div><div class="stat-num">Daily<span>⚡</span></div><div class="stat-lbl">Practice</div></div>
+  </div>
+</section>
+
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Python Scripting</span><span class="marquee-item">Network Security</span><span class="marquee-item">Web Vulnerabilities</span><span class="marquee-item">Ethical Hacking</span><span class="marquee-item">Linux Basics</span><span class="marquee-item">API Automation</span><span class="marquee-item">Termux Tools</span><span class="marquee-item">Penetration Testing</span><span class="marquee-item">Cybersecurity Tools</span><span class="marquee-item">Practical Learning</span><span class="marquee-item">Python Scripting</span><span class="marquee-item">Network Security</span><span class="marquee-item">Web Vulnerabilities</span><span class="marquee-item">Ethical Hacking</span><span class="marquee-item">Linux Basics</span><span class="marquee-item">API Automation</span><span class="marquee-item">Termux Tools</span><span class="marquee-item">Penetration Testing</span><span class="marquee-item">Cybersecurity Tools</span><span class="marquee-item">Practical Learning</span>
+  </div>
+</div>
+
+<section id="about" class="profile-section">
+  <div class="modules-header">
+    <div class="section-label">About Me</div>
+    <h2>My Journey in<br>Cybersecurity</h2>
+  </div>
+  <div class="profile-content">
+    <p>I am a senior secondary student with a clear focus on building a career in cybersecurity. I am deeply interested in understanding how digital systems work, how vulnerabilities are discovered, and how security can be improved.</p>
+    <p>I follow a practical and disciplined approach to learning. Instead of only studying theory, I focus on applying concepts through tools, scripts, and small projects. I believe that real understanding comes from building and experimenting.</p>
+  </div>
+</section>
+
+<section id="skills" class="profile-section">
+  <div class="modules-header">
+    <div class="section-label">Skills</div>
+    <h2>Current Technical<br>Proficiency</h2>
+  </div>
+  <div class="modules-grid">
+    <div class="module-card card-wide">
+      <div class="card-num">01</div>
+      <div class="card-icon">🐍</div>
+      <div class="card-title">Programming</div>
+      <div class="card-desc">Python (Basic to Intermediate) - Building scripts, automation tools, and cybersecurity utilities.</div>
+      <div class="card-tags"><span class="tag tag-accent">Python</span><span class="tag tag-accent">Scripting</span><span class="tag">Automation</span></div>
+    </div>
+    <div class="module-card card-narrow">
+      <div class="card-num">02</div>
+      <div class="card-icon">🌐</div>
+      <div class="card-title">Technical Knowledge</div>
+      <div class="card-desc">Networking Fundamentals, Linux basics, Web Security (XSS, SQL Injection concepts).</div>
+      <div class="card-tags"><span class="tag tag-purple">Networking</span><span class="tag tag-purple">Linux</span><span class="tag">Web Security</span></div>
+    </div>
+    <div class="module-card card-third">
+      <div class="card-num">03</div>
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Tools & Environment</div>
+      <div class="card-desc">Termux, Supabase, API Handling (Requests, JSON), Basic Automation Scripts.</div>
+      <div class="card-tags"><span class="tag tag-red">Termux</span><span class="tag tag-red">Supabase</span><span class="tag tag-red">APIs</span><span class="tag">Automation</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="learning" class="profile-section">
+  <div class="modules-header">
+    <div class="section-label">Learning Approach</div>
+    <h2>How I Learn<br>& Grow</h2>
+  </div>
+  <div class="profile-content">
+    <ul>
+      <li>Step-by-step structured learning (Basic → Advanced)</li>
+      <li>Focus on fundamentals first</li>
+      <li>Hands-on practice with real tools</li>
+      <li>Building small projects to apply concepts</li>
+      <li>Creating notes and cheat sheets for revision</li>
+    </ul>
+  </div>
+</section>
+
+<section id="focus" class="profile-section">
+  <div class="modules-header">
+    <div class="section-label">Current Focus</div>
+    <h2>Active Learning<br>Areas</h2>
+  </div>
+  <div class="profile-content">
+    <ul>
+      <li>Strengthening Networking & Linux basics</li>
+      <li>Learning Web Security and Vulnerability Testing</li>
+      <li>Building beginner-level cybersecurity tools</li>
+      <li>Improving Python scripting skills</li>
+    </ul>
+  </div>
+</section>
+
+<section id="projects" class="profile-section">
+  <div class="modules-header">
+    <div class="section-label">Projects</div>
+    <h2>Building Practical<br>Tools</h2>
+    <p>In Progress / Planned projects to apply cybersecurity concepts.</p>
+  </div>
+  <div class="modules-grid">
+    <div class="module-card card-third">
+      <div class="card-num">01</div>
+      <div class="card-icon">📞</div>
+      <div class="card-title">Phone Lookup Tool</div>
+      <div class="card-desc">API-based phone number information lookup tool.</div>
+      <div class="card-tags"><span class="tag tag-accent">API</span><span class="tag">Python</span></div>
+    </div>
+    <div class="module-card card-third">
+      <div class="card-num">02</div>
+      <div class="card-icon">🔍</div>
+      <div class="card-title">Web Vulnerability Scanner</div>
+      <div class="card-desc">Basic scanner for common web vulnerabilities.</div>
+      <div class="card-tags"><span class="tag tag-purple">Security</span><span class="tag">Scanner</span></div>
+    </div>
+    <div class="module-card card-third">
+      <div class="card-num">03</div>
+      <div class="card-icon">🔐</div>
+      <div class="card-title">Password Strength Checker</div>
+      <div class="card-desc">Tool to evaluate password security strength.</div>
+      <div class="card-tags"><span class="tag tag-red">Security</span><span class="tag">Password</span></div>
+    </div>
+    <div class="module-card card-third">
+      <div class="card-num">04</div>
+      <div class="card-icon">📡</div>
+      <div class="card-title">Port Scanner</div>
+      <div class="card-desc">Network port scanning utility.</div>
+      <div class="card-tags"><span class="tag tag-accent">Networking</span><span class="tag">Scanner</span></div>
+    </div>
+    <div class="module-card card-third">
+      <div class="card-num">05</div>
+      <div class="card-icon">🤖</div>
+      <div class="card-title">Automation Scripts</div>
+      <div class="card-desc">Scripts using APIs for various automation tasks.</div>
+      <div class="card-tags"><span class="tag tag-purple">Automation</span><span class="tag">API</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery" class="profile-section">
+  <div class="modules-header">
+    <div class="section-label">Gallery</div>
+    <h2>Photo Upload<br>Gallery</h2>
+    <p>Upload and showcase images with Supabase Storage.</p>
+  </div>
+  <div class="profile-content">
+    <p>Upload photos to Supabase Storage and preview them in the gallery below.</p>
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap;">
+      <input id="photoInput" type="file" accept="image/*" style="color:var(--text);" />
+      <button id="uploadBtn" class="btn-primary" style="cursor:pointer;">Upload Photo</button>
+      <span id="uploadMessage" style="color:var(--accent);"></span>
+    </div>
+    <div id="uploadedGallery" style="display:grid;grid-template-columns:repeat(3,minmax(220px,1fr));gap:12px;"></div>
+    <div style="margin-top:16px;color:var(--muted);font-size:0.78rem;">Photo storage bucket: <strong>uploads</strong> (configure in Supabase Console)</div>
+  </div>
+</section>
+
+<section id="sql" class="profile-section">
+  <div class="modules-header">
+    <div class="section-label">Supabase / SQL</div>
+    <h2>Database Setup<br>and Queries</h2>
+    <p>Example Supabase SQL snippets for schema, RLS, and data access.</p>
+  </div>
+  <div class="profile-content">
+    <h3>Table Schema</h3>
+    <pre style="background: #05101f; color: #7b5cfa; padding: 16px; border-radius: 4px; overflow-x: auto;">CREATE TABLE users (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  username text UNIQUE NOT NULL,
+  phone text UNIQUE NOT NULL,
+  role text NOT NULL DEFAULT 'user',
+  created_at timestamptz DEFAULT now()
+);
+</pre>
+    <h3>RLS Policy</h3>
+    <pre style="background: #05101f; color: #00f5c4; padding: 16px; border-radius: 4px; overflow-x: auto;">ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow authenticated users" ON users
+  FOR SELECT USING (auth.role() = 'authenticated');
+</pre>
+    <h3>Select Sample</h3>
+    <pre style="background: #05101f; color: #ff4b6e; padding: 16px; border-radius: 4px; overflow-x: auto;">SELECT id, username, phone FROM users WHERE role = 'user';</pre>
+  </div>
+</section>
+
+<section id="academic" class="profile-section">
+    <div class="module-card card-third">
+      <div class="card-num">G2</div>
+      <div class="card-icon">🧩</div>
+      <div class="card-title">Supabase Console</div>
+      <div class="card-desc">Database schema, auth policy, and row-level security snapshots.</div>
+      <div class="card-tags"><span class="tag tag-purple">Supabase</span><span class="tag">DB</span></div>
+    </div>
+    <div class="module-card card-third">
+      <div class="card-num">G3</div>
+      <div class="card-icon">🔐</div>
+      <div class="card-title">Web Scanner Report</div>
+      <div class="card-desc">Sample vulnerability results with clearly labeled risk findings.</div>
+      <div class="card-tags"><span class="tag tag-red">Security</span><span class="tag">Audit</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="academic" class="profile-section">
+  <div class="modules-header">
+    <div class="section-label">Academic Background</div>
+    <h2>Balancing Studies<br>& Skills</h2>
+  </div>
+  <div class="profile-content">
+    <p><strong>Subjects:</strong> Mathematics, Physics, Chemistry, English, Hindi</p>
+    <p>Maintaining balance between academic studies and technical skill development.</p>
+  </div>
+</section>
+
+<section id="goals" class="profile-section">
+  <div class="modules-header">
+    <div class="section-label">Goals</div>
+    <h2>Vision for the<br>Future</h2>
+  </div>
+  <div class="stack-grid">
+    <div class="stack-col">
+      <h3>Short-Term Goals</h3>
+      <div class="stack-item"><span class="stack-item-name">Build 3–5 working cybersecurity tools</span><span class="stack-item-badge badge-core">Tools</span></div>
+      <div class="stack-item"><span class="stack-item-name">Upload projects on GitHub</span><span class="stack-item-badge badge-core">GitHub</span></div>
+      <div class="stack-item"><span class="stack-item-name">Gain strong understanding of basics</span><span class="stack-item-badge badge-core">Fundamentals</span></div>
+    </div>
+    <div class="stack-col">
+      <h3>Long-Term Goals</h3>
+      <div class="stack-item"><span class="stack-item-name">Become a skilled cybersecurity professional</span><span class="stack-item-badge badge-sec">Career</span></div>
+      <div class="stack-item"><span class="stack-item-name">Specialize in Penetration Testing / Ethical Hacking</span><span class="stack-item-badge badge-sec">Specialization</span></div>
+      <div class="stack-item"><span class="stack-item-name">Work on real-world security problems</span><span class="stack-item-badge badge-sec">Impact</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="strengths" class="profile-section">
+  <div class="modules-header">
+    <div class="section-label">Strengths</div>
+    <h2>What Drives<br>My Progress</h2>
+  </div>
+  <div class="profile-content">
+    <ul>
+      <li>Practical mindset (learning by doing)</li>
+      <li>Consistent and disciplined approach</li>
+      <li>Strong curiosity in technology</li>
+      <li>Focus on long-term growth</li>
+    </ul>
+  </div>
+</section>
+
+<section id="improve" class="profile-section">
+  <div class="modules-header">
+    <div class="section-label">Areas to Improve</div>
+    <h2>Growth<br>Opportunities</h2>
+  </div>
+  <div class="profile-content">
+    <ul>
+      <li>Need more real-world project exposure</li>
+      <li>Consistency in public sharing (GitHub, social platforms)</li>
+      <li>Deeper understanding of advanced security concepts</li>
+    </ul>
+  </div>
+</section>
+
+<section id="presence" class="profile-section">
+  <div class="modules-header">
+    <div class="section-label">Online Presence</div>
+    <h2>Connect With<br>Me</h2>
+  </div>
+  <div class="profile-content">
+    <p><strong>X (Twitter):</strong> <a href="https://x.com/CYBERTON00" style="color: var(--accent);">https://x.com/CYBERTON00</a></p>
+    <p><strong>GitHub:</strong> <a href="https://github.com/itsboy42068" style="color: var(--accent);">https://github.com/itsboy42068</a></p>
+    <p><strong>Instagram:</strong> <a href="https://www.instagram.com/official_cyberton/" style="color: var(--accent);">https://www.instagram.com/official_cyberton/</a></p>
+  </div>
+</section>
+
+<section id="statement" class="profile-section">
+  <div class="modules-header">
+    <div class="section-label">Personal Statement</div>
+    <h2>My Commitment<br>to Cybersecurity</h2>
+  </div>
+  <div class="profile-content">
+    <p>I am at the beginning of my cybersecurity journey, but I am focused, consistent, and committed to improving every day. My goal is not just to learn, but to build real skills that can be applied in practical scenarios.</p>
+    <p>I believe in progress through discipline, practice, and continuous learning.</p>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="section-label" style="justify-content:center">Let's Connect</div>
+    <h2>Interested in<br><em>Cybersecurity</em>?</h2>
+    <p>Reach out if you'd like to collaborate on projects, share knowledge, or discuss the latest in cybersecurity.</p>
+    <div class="hero-btns" style="justify-content:center">
+      <a href="https://github.com/itsboy42068" class="btn-primary">Follow on GitHub</a>
+      <a href="https://x.com/CYBERTON00" class="btn-outline">DM on X</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>CYBERTON © 2025 · CYBERSECURITY ENTHUSIAST</div>
+  <div style="display:flex;gap:28px"><a href="https://github.com/itsboy42068">GitHub</a><a href="#about">About</a><a href="#skills">Skills</a></div>
+  <div>Python · Cybersecurity · Ethical Hacking</div>
+</footer>
+
+<script>
+  // Supabase setup: replace these values with your own project credentials.
+  const SUPABASE_URL = 'https://qixpfdizqmsbpceonemh.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_CtuwolWBPE1qhx-Aakk0Pg_dIcN5ifN';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const photoInput = document.getElementById('photoInput');
+  const uploadBtn = document.getElementById('uploadBtn');
+  const uploadMessage = document.getElementById('uploadMessage');
+  const uploadedGallery = document.getElementById('uploadedGallery');
+
+  async function refreshGallery() {
+    // Prefer reading from metadata table for gallery entries
+    const { data: photos, error: photosError } = await supabaseClient
+      .from('photos')
+      .select('id,filename,path,url,created_at')
+      .order('created_at', { ascending: false })
+      .limit(50);
+
+    if (photosError) {
+      console.warn('Cannot load photo metadata, falling back to storage listing', photosError);
+    }
+
+    uploadedGallery.innerHTML = '';
+
+    if (photos && photos.length > 0) {
+      for (const p of photos) {
+        const card = document.createElement('div');
+        card.style = 'background: var(--surface); border: 1px solid var(--border); padding: 8px; border-radius: 6px;';
+        card.innerHTML = `<img src="${p.url}" alt="${p.filename}" style="width:100%;height:140px;object-fit:cover;border-radius:4px;"/><p style="margin-top:8px;color:var(--text);font-size:0.82rem;">${p.filename}</p>`;
+        uploadedGallery.appendChild(card);
+      }
+      return;
+    }
+
+    // Fallback to direct storage listing if metadata is empty or not available
+    const { data, error } = await supabaseClient.storage.from('uploads').list('', { limit: 50, sortBy: { column: 'name', order: 'desc' } });
+    if (error) { console.error('Gallery list error', error); return; }
+
+    for (const item of data) {
+      if (item.type !== 'file') continue;
+      const publicUrl = supabaseClient.storage.from('uploads').getPublicUrl(item.name).data.publicUrl;
+      const card = document.createElement('div');
+      card.style = 'background: var(--surface); border: 1px solid var(--border); padding: 8px; border-radius: 6px;';
+      card.innerHTML = `<img src="${publicUrl}" alt="${item.name}" style="width:100%;height:140px;object-fit:cover;border-radius:4px;"/><p style="margin-top:8px;color:var(--text);font-size:0.82rem;">${item.name}</p>`;
+      uploadedGallery.appendChild(card);
+    }
+  }
+
+  async function ensureBucketExists(bucketName) {
+    const { data, error } = await supabaseClient.storage.listBuckets();
+    if (error) {
+      console.error('Bucket list error', error);
+      return false;
+    }
+    return data?.some(bucket => bucket.name === bucketName);
+  }
+
+  uploadBtn.addEventListener('click', async () => {
+    const file = photoInput.files[0];
+    if (!file) { uploadMessage.textContent = 'Select a photo first'; return; }
+
+    const bucket = 'uploads';
+    const bucketExists = await ensureBucketExists(bucket);
+    if (!bucketExists) {
+      uploadMessage.style.color = '#ff4b6e';
+      uploadMessage.textContent = `Upload failed: bucket '${bucket}' not found. Create this bucket in Supabase Storage first.`;
+      return;
+    }
+
+    uploadMessage.textContent = 'Uploading...';
+    const filePath = `${bucket}/${Date.now()}_${file.name}`;
+    const { error: uploadError } = await supabaseClient.storage.from(bucket).upload(filePath, file, { cacheControl: '3600', upsert: false });
+    if (uploadError) {
+      uploadMessage.style.color = '#ff4b6e';
+      uploadMessage.textContent = `Upload failed: ${uploadError.message}`;
+      console.error(uploadError);
+      return;
+    }
+
+    const publicUrl = supabaseClient.storage.from('uploads').getPublicUrl(filePath).data.publicUrl;
+    const { error: insertError } = await supabaseClient.from('photos').insert([{
+      filename: file.name,
+      path: filePath,
+      url: publicUrl,
+      uploaded_by: null
+    }]);
+
+    if (insertError) {
+      console.warn('Could not insert metadata record', insertError);
+    }
+
+    uploadMessage.style.color = '#00f5c4';
+    uploadMessage.textContent = 'Upload successful! Refreshing gallery...';
+    await refreshGallery();
+  });
+
+  refreshGallery().catch(err => console.error(err));
+
+  // existing custom cursor/scroll behavior
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+  function animateRing(){rx+=(mx-rx)*0.15;ry+=(my-ry)*0.15;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animateRing);}
+  animateRing();
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cursor.style.width='16px';cursor.style.height='16px';ring.style.width='56px';ring.style.height='56px';});
+    el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='36px';ring.style.height='36px';});
+  });
+  const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1});
+  document.querySelectorAll('.module-card,.sec-card').forEach(el=>observer.observe(el));
+  document.querySelectorAll('.module-card').forEach((card,i)=>{card.style.transitionDelay=`${i*0.08}s`;});
+</script>
+</body>
+</html>
